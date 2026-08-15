@@ -1,3 +1,4 @@
+import { Menu } from "lucide-react";
 import { useAppDispatch } from "../../../store/hooks";
 import { setIsOpenSidebar } from "../../../store/uiManagementSlice/uiManagementSlice";
 
@@ -6,14 +7,16 @@ const Header = () => {
   return (
     <section
       id="header"
-      className="fixed top-0 right-0 w-full h-header-h bg-white border-b border-gray-400 lg:pr-sidebar-w"
+      className="fixed top-0 right-0 w-full h-header-h bg-white dark:bg-gray-900 border-b border-gray-400 lg:pr-sidebar-w"
     >
-      <button
-        className="lg:hidden"
-        onClick={() => dispatch(setIsOpenSidebar(true))}
-      >
-        📂
-      </button>
+      <div className="flex items-center h-full p-2">
+        <button
+          className="lg:hidden"
+          onClick={() => dispatch(setIsOpenSidebar(true))}
+        >
+          <Menu />
+        </button>
+      </div>
     </section>
   );
 };
