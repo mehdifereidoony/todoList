@@ -1,6 +1,7 @@
 import { Menu } from "lucide-react";
 import { useAppDispatch } from "../../../store/hooks";
 import { setIsOpenSidebar } from "../../../store/uiManagementSlice/uiManagementSlice";
+import { memo } from "react";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -21,4 +22,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

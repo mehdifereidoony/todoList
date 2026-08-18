@@ -1,10 +1,11 @@
-import { Moon, Sun, X } from "lucide-react";
+import { LayoutDashboard, ListSortDescending, ListTodo, Moon, Sun, User, X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   setIsOpenSidebar,
   toggleTheme,
 } from "../../../store/uiManagementSlice/uiManagementSlice";
-import { useEffect, useState } from "react";
+import { memo } from "react";
+import MenuItem from "./menuItem";
 
 const sidebar = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const sidebar = () => {
         openSidebar ? "right-0" : "-right-sidebar-w"
       }`}
     >
-      <div className="flex items-center justify-between h-header-h p-2">
+      <div className="flex items-center justify-between h-header-h p-2 border-b border-gray-400">
         <button
           className="lg:hidden"
           onClick={() => dispatch(setIsOpenSidebar(false))}
@@ -29,8 +30,15 @@ const sidebar = () => {
           {themeMode === "dark" ? <Moon /> : <Sun />}
         </button>
       </div>
+      <div>
+        <ul className="">
+          <MenuItem title={"داشبرد"} to="/" Icon={LayoutDashboard} />
+          <MenuItem title={"دسته ها"} to="/category" Icon={ListSortDescending} />
+          <MenuItem title={"تسک ها"} to="/task" Icon={ListTodo} />
+        </ul>
+      </div>
     </section>
   );
 };
 
-export default sidebar;
+export default memo(sidebar);

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 const Content = () => {
   const [] = useState();
+  console.log("content");
   return (
     <section
       id="content"
@@ -12,4 +13,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default memo(Content);
