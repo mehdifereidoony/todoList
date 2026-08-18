@@ -5,9 +5,16 @@ type initialStateType = {
   themeMode: "dark" | "light";
 };
 
+type theme = "light" | "dark";
+
+const getInitialTheme = (): theme => {
+  const theme = localStorage.getItem("theme");
+  return (theme as theme) || "light";
+};
+
 const initialState: initialStateType = {
   openSidebar: false,
-  themeMode: "light",
+  themeMode: getInitialTheme(),
 };
 
 const uiManagementSlice = createSlice({
@@ -18,7 +25,9 @@ const uiManagementSlice = createSlice({
       state.openSidebar = action.payload;
     },
     toggleTheme: (state) => {
-      state.themeMode = state.themeMode === "dark" ? "light" : "dark";
+      const theme = state.themeMode === "dark" ? "light" : "dark";
+      state.themeMode = theme;
+      localStorage.setItem("theme", theme);
     },
   },
 });
