@@ -1,4 +1,11 @@
-import { LayoutDashboard, ListSortDescending, ListTodo, Moon, Sun, User, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  ListSortDescending,
+  ListTodo,
+  Moon,
+  Sun,
+  X,
+} from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   setIsOpenSidebar,
@@ -33,8 +40,12 @@ const sidebar = () => {
       <div>
         <ul className="">
           <MenuItem title={"داشبرد"} to="/" Icon={LayoutDashboard} />
-          <MenuItem title={"دسته ها"} to="/category" Icon={ListSortDescending} />
-          <MenuItem title={"تسک ها"} to="/task" Icon={ListTodo} />
+          <MenuItem
+            title={"دسته ها"}
+            to="/categories"
+            Icon={ListSortDescending}
+          />
+          <MenuItem title={"تسک ها"} to="/tasks" Icon={ListTodo} />
         </ul>
       </div>
     </section>
