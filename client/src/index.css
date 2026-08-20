@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@font-face {
+  font-family: "b-yekan";
+  src: url("./assets/font/Yekan.ttf");
+}
+
+@theme {
+  /* spacing */
+  --spacing-header-h: 64px;
+  --spacing-sidebar-w: 300px;
+  /* fonts */
+  --font-bYekan: "b-yekan", sans-serif;
+}
+
+@layer base {
+  * {
+    font-family: var(--font-bYekan);
+    direction: rtl;
+    text-align: right;
+  }
+}
