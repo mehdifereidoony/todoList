@@ -2,7 +2,7 @@ import { memo } from "react";
 import { Route, Routes } from "react-router";
 import Dashboard from "../../../pages/Dashboard/Dashboard";
 import Categories from "../../../pages/Categories/Categories";
-import Tasks from "../../../pages/TasksTasks";
+import Tasks from "../../../pages/Tasks/Tasks";
 
 const Content = () => {
   return (
