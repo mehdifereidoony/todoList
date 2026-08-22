@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import Content from "./Components/Layout/Content/Content.js";
 import Header from "./Components/Layout/Header/Header.js";
 import Sidebar from "./Components/Layout/Sidebar/Sidebar.js";
@@ -12,6 +13,7 @@ function App() {
         <Header />
         <Sidebar />
       </div>
+      <ToastContainer />
     </main>
   );
 }

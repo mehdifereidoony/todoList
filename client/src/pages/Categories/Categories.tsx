@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCategoryService } from "../../service/categoryService";
 import type { Category } from "../../types/category";
+import { errorToast } from "../../utils/toastUtils";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -15,6 +16,7 @@ const Categories = () => {
       setCategories(res);
     } catch (error) {
       console.error(error);
+      errorToast();
     } finally {
       setIsLoading(false);
     }
