@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getCategoryService } from "../../service/categoryService";
 import type { Category } from "../../types/category";
-import { errorToast } from "../../utils/toastUtils";
 import type { AxiosResponse } from "axios";
+import AddCategory from "./components/addCategory";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -37,12 +37,11 @@ const Categories = () => {
           </p>
         </div>
 
-        <button
-          type="button"
-          className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
-        >
-          + افزودن دسته‌بندی
-        </button>
+        <AddCategory
+          updateCategories={(category) =>
+            setCategories([...categories, category])
+          }
+        />
       </div>
 
       {/* Table Container */}
