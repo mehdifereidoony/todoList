@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCategoryService } from "../../service/categoryService";
 import type { Category } from "../../types/category";
 import { errorToast } from "../../utils/toastUtils";
+import type { AxiosResponse } from "axios";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -11,12 +12,11 @@ const Categories = () => {
     try {
       setIsLoading(true);
 
-      const res = await getCategoryService();
+      const res: AxiosResponse<Category[]> = await getCategoryService();
 
-      setCategories(res);
+      setCategories(res.data);
     } catch (error) {
       console.error(error);
-      errorToast();
     } finally {
       setIsLoading(false);
     }
@@ -55,9 +55,7 @@ const Categories = () => {
                 <th className="px-6 py-4 font-semibold">توضیحات</th>
                 <th className="px-6 py-4 font-semibold">آیکون</th>
                 <th className="px-6 py-4 font-semibold">شناسه کاربر</th>
-                <th className="px-6 py-4 text-center font-semibold">
-                  عملیات
-                </th>
+                <th className="px-6 py-4 text-center font-semibold">عملیات</th>
               </tr>
             </thead>
 
@@ -94,9 +92,7 @@ const Categories = () => {
                       {category.description || "-"}
                     </td>
 
-                    <td className="px-6 py-4">
-                      {category.icon || "-"}
-                    </td>
+                    <td className="px-6 py-4">{category.icon || "-"}</td>
 
                     <td className="px-6 py-4 text-gray-500 dark:text-gray-400">
                       {category.userId}
