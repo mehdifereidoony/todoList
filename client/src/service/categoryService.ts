@@ -11,3 +11,7 @@ export const addCategoryService = (
 ): Promise<AxiosResponse<any>> => {
   return api.post("/taskCategories", data);
 };
+
+export const deleteCategoryService = (id: string) => {
+  return api.delete(`/taskCategories/${id}`);
+};

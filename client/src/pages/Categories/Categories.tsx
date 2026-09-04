@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react";
-import { getCategoryService } from "../../service/categoryService";
+import {
+  deleteCategoryService,
+  getCategoryService,
+} from "../../service/categoryService";
 import type { Category } from "../../types/category";
 import type { AxiosResponse } from "axios";
 import AddCategory from "./components/addCategory";
+import { Button } from "@/components/ui/button";
+import AppAlert from "@/Components/common/AppAlert";
+import { successToast } from "@/utils/toastUtils";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  );
+  const [deleting, setDeleting] = useState(false);
 
   const getCategories = async () => {
     try {
@@ -22,9 +33,30 @@ const Categories = () => {
     }
   };
 
+  const handleDelete = async () => {
+    const currentId = selectedCategory?.id;
+    if (!currentId) {
+      return;
+    }
+    const res = await deleteCategoryService(currentId);
+    if (res.status == 200) {
+      setDeleteDialogOpen(false);
+      successToast("دسته با موفقیت حذف شد.");
+      setCategories((categories) =>
+        categories.filter((category) => category.id !== currentId)
+      );
+    }
+  };
+
   useEffect(() => {
     getCategories();
   }, []);
+
+  //delete functionality
+  const openDeleteDialog = (category: Category) => {
+    setDeleteDialogOpen(true);
+    setSelectedCategory(category);
+  };
 
   return (
     <div className="min-h-full p-6 text-gray-800 dark:text-gray-100">
@@ -105,13 +137,13 @@ const Categories = () => {
                         >
                           ویرایش
                         </button>
-
-                        <button
-                          type="button"
-                          className="cursor-pointer rounded-md px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
+                        <Button
+                          variant="destructive"
+                          onClick={() => openDeleteDialog(category)}
+                          className="cursor-pointer"
                         >
                           حذف
-                        </button>
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -121,6 +153,14 @@ const Categories = () => {
           </table>
         </div>
       </div>
+      <AppAlert
+        alertDialogTitle={`آیا از حذف ${selectedCategory?.title || ""} مطمئنی؟`}
+        alertDialogCancel="نه. دستم خورد!"
+        alertDialogAction="آره"
+        open={deleteDialogOpen}
+        changeOpen={setDeleteDialogOpen}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };
