@@ -13,9 +13,11 @@ const AppModal = ({
   triggerTitle,
   dialogTitle,
   triggerClass,
+  isOpen,
+  changeIsOpen,
 }: AppModalType) => {
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={(open) => changeIsOpen(open)}>
       <DialogTrigger
         className={`cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 ${triggerClass}`}
       >

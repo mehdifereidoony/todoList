@@ -5,6 +5,8 @@ export interface AppModalType {
   triggerTitle: string;
   dialogTitle: string;
   triggerClass?: string;
+  isOpen: boolean;
+  changeIsOpen: (open: boolean) => void;
 }
 
 export interface AppInputProps extends ComponentProps<"input"> {

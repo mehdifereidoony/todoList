@@ -6,27 +6,37 @@ import type { Category, categoryFields } from "@/types/category";
 import { successToast } from "@/utils/toastUtils";
 import { useState, type SubmitEvent } from "react";
 
+const initialValues = {
+  title: "",
+  description: "",
+  icon: "icon",
+  userId: "1",
+};
+
 const AddCategory = ({
   updateCategories,
 }: {
   updateCategories: (category: Category) => void;
 }) => {
-  const [values, setValues] = useState<categoryFields>({
-    title: "",
-    description: "",
-    icon: "icon",
-    userId: "1",
-  });
+  const [values, setValues] = useState<categoryFields>(initialValues);
+  const [isOpen, setIsOpen] = useState(false);
   const handleSubmitForm = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await addCategoryService(values);
     if (res.status === 201) {
       successToast("دسته جدید با موفقیت ایجاد شد");
       updateCategories(res.data);
+      setIsOpen(false);
+      setValues(initialValues);
     }
   };
   return (
-    <AppModal triggerTitle="افزودن دسته بندی +" dialogTitle="افزودن دسته بندی">
+    <AppModal
+      triggerTitle="افزودن دسته بندی +"
+      dialogTitle="افزودن دسته بندی"
+      isOpen={isOpen}
+      changeIsOpen={setIsOpen}
+    >
       <form
         onSubmit={(e) => handleSubmitForm(e)}
         className="flex flex-col justify-center w-full mx-auto px-4 space-y-6"
