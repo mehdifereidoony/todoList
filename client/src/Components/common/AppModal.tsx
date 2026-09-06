@@ -11,6 +11,7 @@ import { type ReactNode } from "react";
 const AppModal = ({
   children,
   triggerTitle,
+  triggerOnClick,
   dialogTitle,
   triggerClass,
   isOpen,
@@ -19,6 +20,7 @@ const AppModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => changeIsOpen(open)}>
       <DialogTrigger
+        onClick={() => triggerOnClick()}
         className={`cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 ${triggerClass}`}
       >
         {triggerTitle}

@@ -17,7 +17,9 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
-  const [deleting, setDeleting] = useState(false);
+  const [selectedUpdateCategory, setSelectedUpdateCategory] =
+    useState<Category | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const getCategories = async () => {
     try {
@@ -58,6 +60,12 @@ const Categories = () => {
     setSelectedCategory(category);
   };
 
+  // update functionality
+  const openUpdateDialog = (category: Category) => {
+    setIsOpen(true);
+    setSelectedUpdateCategory(category);
+  };
+
   return (
     <div className="min-h-full p-6 text-gray-800 dark:text-gray-100">
       {/* Header */}
@@ -70,9 +78,26 @@ const Categories = () => {
         </div>
 
         <AddCategory
-          updateCategories={(category) =>
-            setCategories([...categories, category])
+          updateCategories={(category) => {
+            if (selectedUpdateCategory) {
+              const categoryIndex = categories.findIndex(
+                (c) => c.id === selectedUpdateCategory.id
+              );
+              if (categoryIndex !== -1) {
+                const updatedCategories = [...categories];
+                updatedCategories[categoryIndex] = category;
+                setCategories(updatedCategories);
+              }
+            } else {
+              setCategories([...categories, category]);
+            }
+          }}
+          selectedUpdateCategory={selectedUpdateCategory}
+          setSelectedUpdateCategory={(value) =>
+            setSelectedUpdateCategory(value)
           }
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
         />
       </div>
 
@@ -131,12 +156,14 @@ const Categories = () => {
 
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-2">
-                        <button
+                        <Button
+                          onClick={() => openUpdateDialog(category)}
+                          variant="outline"
                           type="button"
-                          className="cursor-pointer rounded-md px-3 py-1.5 text-xs font-medium text-blue-600 transition hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950/40"
+                          className="cursor-pointer"
                         >
                           ویرایش
-                        </button>
+                        </Button>
                         <Button
                           variant="destructive"
                           onClick={() => openDeleteDialog(category)}

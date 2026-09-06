@@ -12,6 +12,10 @@ export const addCategoryService = (
   return api.post("/taskCategories", data);
 };
 
+export const updateCategoryService = (id: string, data) => {
+  return api.put(`/taskCategories/${id}`, data);
+};
+
 export const deleteCategoryService = (id: string) => {
   return api.delete(`/taskCategories/${id}`);
 };

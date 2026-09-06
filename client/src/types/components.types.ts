@@ -3,6 +3,7 @@ import type { ComponentProps, ReactNode } from "react";
 export interface AppModalType {
   children: ReactNode;
   triggerTitle: string;
+  triggerOnClick: () => void;
   dialogTitle: string;
   triggerClass?: string;
   isOpen: boolean;

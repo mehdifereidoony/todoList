@@ -1,10 +1,19 @@
 import AppModal from "@/Components/common/AppModal";
 import AppButton from "@/Components/shared/AppButton";
 import AppInput from "@/Components/shared/AppInput";
-import { addCategoryService } from "@/service/categoryService";
+import {
+  addCategoryService,
+  updateCategoryService,
+} from "@/service/categoryService";
 import type { Category, categoryFields } from "@/types/category";
 import { successToast } from "@/utils/toastUtils";
-import { useState, type SubmitEvent } from "react";
+import type { Dispatch } from "@reduxjs/toolkit";
+import {
+  useEffect,
+  useState,
+  type SetStateAction,
+  type SubmitEvent,
+} from "react";
 
 const initialValues = {
   title: "",
@@ -15,16 +24,34 @@ const initialValues = {
 
 const AddCategory = ({
   updateCategories,
+  selectedUpdateCategory,
+  setSelectedUpdateCategory,
+  isOpen,
+  setIsOpen,
 }: {
   updateCategories: (category: Category) => void;
+  selectedUpdateCategory: Category;
+  setSelectedUpdateCategory: (value: Category | null) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }) => {
   const [values, setValues] = useState<categoryFields>(initialValues);
-  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setValues(selectedUpdateCategory || initialValues);
+  }, [selectedUpdateCategory]);
+
   const handleSubmitForm = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await addCategoryService(values);
-    if (res.status === 201) {
-      successToast("دسته جدید با موفقیت ایجاد شد");
+    const res = selectedUpdateCategory
+      ? await updateCategoryService(selectedUpdateCategory.id, values)
+      : await addCategoryService(values);
+    if (res.status === 201 || res.status === 200) {
+      successToast(
+        res.status === 201
+          ? "دسته جدید با موفقیت ایجاد شد"
+          : "دسته بندی با موفقیت ویرایش شد"
+      );
       updateCategories(res.data);
       setIsOpen(false);
       setValues(initialValues);
@@ -33,7 +60,10 @@ const AddCategory = ({
   return (
     <AppModal
       triggerTitle="افزودن دسته بندی +"
-      dialogTitle="افزودن دسته بندی"
+      triggerOnClick={() => setSelectedUpdateCategory(null)}
+      dialogTitle={
+        selectedUpdateCategory ? "ویرایش دسته بندی" : "افزودن دسته بندی"
+      }
       isOpen={isOpen}
       changeIsOpen={setIsOpen}
     >
